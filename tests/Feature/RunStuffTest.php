@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\RunStuff;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
@@ -15,11 +16,13 @@ class RunStuffTest extends TestCase
      */
     public function testExample()
     {
-        Http::fake();
+        Http::fake(
+            ['jsonplaceholder.typicode.com/*' => Http::response(['test' => 'test'], 200)]
+        );
 
         $stuffRunner = new RunStuff();
-        $stuff = $stuffRunner->run();
+        $url = $stuffRunner->run();
 
-        $this->assertNotEmpty($stuff);
+        $this->assertEquals('https://jsonplaceholder.typicode.com/posts', $url);
     }
 }
