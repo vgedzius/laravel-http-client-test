@@ -8,8 +8,13 @@ class RunStuff
 {
     public function run()
     {
-        return (string)Http::get(
+        $response = Http::get(
             'https://jsonplaceholder.typicode.com/posts'
-        )->effectiveUri();
+        );
+
+        $url = $response->effectiveUri();
+        // do something with url, for example logging...
+
+        return $response;
     }
 }
